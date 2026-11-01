@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot name="trash_bin">
+  <!--
+    垃圾桶模型：开口圆柱桶（空心的，水杯能掉进去）
+    结构：底部圆盘 + 桶壁（厚壁圆环）
+    桶底在 z = -0.12m，桶口在 z = +0.08m（高 0.20m）
+    内径 0.085，外径 0.10（壁厚 0.015）
+  -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.3" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0"
+          izz="0.001" />
+    </inertial>
+
+    <!-- 底部圆盘（碰撞实心，放得稳） -->
+    <visual>
+      <origin xyz="0 0 -0.12" rpy="0 0 0" />
+      <geometry><cylinder radius="0.09" length="0.01" /></geometry>
+      <material name="gray"><color rgba="0.4 0.4 0.4 0.9" /></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.12" rpy="0 0 0" />
+      <geometry><cylinder radius="0.09" length="0.01" /></geometry>
+    </collision>
+
+    <!-- 桶壁：用 4 块弧形板拼成圆环（空心，中间能让水杯掉入） -->
+    <!-- 前后板（Y 方向厚壁） -->
+    <visual>
+      <origin xyz="0 -0.085 0" rpy="0 0 0" />
+      <geometry><box size="0.18 0.03 0.20" /></geometry>
+      <material name="gray"><color rgba="0.4 0.4 0.4 0.9" /></material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.085 0" rpy="0 0 0" />
+      <geometry><box size="0.18 0.03 0.20" /></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0.085 0" rpy="0 0 0" />
+      <geometry><box size="0.18 0.03 0.20" /></geometry>
+      <material name="gray"><color rgba="0.4 0.4 0.4 0.9" /></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.085 0" rpy="0 0 0" />
+      <geometry><box size="0.18 0.03 0.20" /></geometry>
+    </collision>
+    <!-- 左右板（X 方向厚壁） -->
+    <visual>
+      <origin xyz="-0.085 0 0" rpy="0 0 0" />
+      <geometry><box size="0.03 0.18 0.20" /></geometry>
+      <material name="gray"><color rgba="0.4 0.4 0.4 0.9" /></material>
+    </visual>
+    <collision>
+      <origin xyz="-0.085 0 0" rpy="0 0 0" />
+      <geometry><box size="0.03 0.18 0.20" /></geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.085 0 0" rpy="0 0 0" />
+      <geometry><box size="0.03 0.18 0.20" /></geometry>
+      <material name="gray"><color rgba="0.4 0.4 0.4 0.9" /></material>
+    </visual>
+    <collision>
+      <origin xyz="0.085 0 0" rpy="0 0 0" />
+      <geometry><box size="0.03 0.18 0.20" /></geometry>
+    </collision>
+  </link>
+</robot>

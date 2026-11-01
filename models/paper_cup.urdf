@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot name="paper_cup">
+  <!--
+    锥形纸杯（更真实的咖啡杯造型）
+    视觉：上宽下窄的圆锥台（3 层叠叠圆柱模拟锥度）+ 杯口卷边 + 半透明
+    碰撞：底部 + 外壁（空心，内部空腔可装水）
+    尺寸：上口半径 0.028，下口半径 0.018，高 0.09，杯底在 z=-0.09
+    杯身中部宽约 46mm —— Panda 夹爪（最大张开 70mm）可轻松夹住
+  -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 -0.035" rpy="0 0 0" />
+      <mass value="0.15" />
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0"
+          izz="0.0001" />
+    </inertial>
+
+    <!-- ============ 碰撞（空心杯身 + 底部） ============ -->
+    <!-- 底部圆盘 -->
+    <collision>
+      <origin xyz="0 0 -0.09" rpy="0 0 0" />
+      <geometry><cylinder radius="0.019" length="0.006" /></geometry>
+    </collision>
+    <!-- 杯身外壁：3 层渐缩圆柱，形成锥形 -->
+    <collision>
+      <origin xyz="0 0 -0.023" rpy="0 0 0" />
+      <geometry><cylinder radius="0.027" length="0.044" /></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0 -0.054" rpy="0 0 0" />
+      <geometry><cylinder radius="0.024" length="0.040" /></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0 0 -0.079" rpy="0 0 0" />
+      <geometry><cylinder radius="0.021" length="0.026" /></geometry>
+    </collision>
+
+    <!-- ============ 视觉（半透明锥形杯） ============ -->
+    <!-- 杯身：3 层渐缩半透明圆柱 -->
+    <visual>
+      <origin xyz="0 0 -0.023" rpy="0 0 0" />
+      <geometry><cylinder radius="0.028" length="0.044" /></geometry>
+      <material name="cup_body"><color rgba="0.85 0.65 0.40 0.55" /></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.054" rpy="0 0 0" />
+      <geometry><cylinder radius="0.025" length="0.040" /></geometry>
+      <material name="cup_body"><color rgba="0.85 0.65 0.40 0.55" /></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.079" rpy="0 0 0" />
+      <geometry><cylinder radius="0.022" length="0.026" /></geometry>
+      <material name="cup_body"><color rgba="0.85 0.65 0.40 0.55" /></material>
+    </visual>
+    <!-- 杯口卷边（一圈厚环） -->
+    <visual>
+      <origin xyz="0 0 0.001" rpy="0 0 0" />
+      <geometry><cylinder radius="0.030" length="0.006" /></geometry>
+      <material name="cup_rim"><color rgba="0.95 0.75 0.5 0.9" /></material>
+    </visual>
+    <!-- 杯底 -->
+    <visual>
+      <origin xyz="0 0 -0.091" rpy="0 0 0" />
+      <geometry><cylinder radius="0.019" length="0.004" /></geometry>
+      <material name="cup_rim"><color rgba="0.95 0.75 0.5 0.9" /></material>
+    </visual>
+  </link>
+</robot>

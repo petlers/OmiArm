@@ -1,0 +1,51 @@
+<mujoco model="panda pick-and-place">
+  <include file="panda.xml"/>
+
+  <!-- ============ 物理参数 ============ -->
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  <size nconmax="2000" nstack="300000"/>
+
+  <worldbody>
+    <!-- 桌子（静态固定，直接连在 world 上）。x=0.50 让桌角(0.15)避开机械臂 link1 -->
+    <body name="table" pos="0.50 0 0.18">
+      <geom name="table_top" type="box" size="0.35 0.35 0.02" pos="0 0 0.02"
+            mass="10" friction="0.5 0.005 0.0001" rgba="0.6 0.55 0.5 1"/>
+      <geom name="table_leg1" type="box" size="0.03 0.03 0.18" pos="0.30 0.30 -0.18"
+            mass="1" rgba="0.4 0.4 0.4 1"/>
+      <geom name="table_leg2" type="box" size="0.03 0.03 0.18" pos="0.30 -0.30 -0.18"
+            mass="1" rgba="0.4 0.4 0.4 1"/>
+      <geom name="table_leg3" type="box" size="0.03 0.03 0.18" pos="-0.30 0.30 -0.18"
+            mass="1" rgba="0.4 0.4 0.4 1"/>
+      <geom name="table_leg4" type="box" size="0.03 0.03 0.18" pos="-0.30 -0.30 -0.18"
+            mass="1" rgba="0.4 0.4 0.4 1"/>
+    </body>
+
+    <!-- 水杯（自由刚体，可被抓取）：方正杯身，body 原点 = 杯心（抓取对齐直观）。
+         边长 44mm、高 80mm，落在桌面顶面 z=0.22 上 → 稳定后杯心 z ≈ 0.26。 -->
+    <body name="cup" pos="0.50 0.15 0.30">
+      <freejoint/>
+      <geom name="cup_body" type="box" size="0.022 0.022 0.04"
+            mass="0.12" friction="1.2 0.005 0.0001" rgba="0.2 0.7 0.9 0.8"/>
+    </body>
+
+    <!-- 垃圾桶（静态固定，直接连在 world 上） -->
+    <body name="trash_bin" pos="0.50 -0.55 0">
+      <!-- 桶壁 -->
+      <geom name="bin_wall_x1" type="box" size="0.005 0.08 0.12" pos="-0.08 0 0.12"
+            mass="0.5" rgba="0.35 0.35 0.35 1"/>
+      <geom name="bin_wall_x2" type="box" size="0.005 0.08 0.12" pos="0.08 0 0.12"
+            mass="0.5" rgba="0.35 0.35 0.35 1"/>
+      <geom name="bin_wall_y1" type="box" size="0.08 0.005 0.12" pos="0 0.08 0.12"
+            mass="0.5" rgba="0.35 0.35 0.35 1"/>
+      <geom name="bin_wall_y2" type="box" size="0.08 0.005 0.12" pos="0 -0.08 0.12"
+            mass="0.5" rgba="0.35 0.35 0.35 1"/>
+      <!-- 桶底 -->
+      <geom name="bin_bottom" type="box" size="0.08 0.08 0.01" pos="0 0 0.01"
+            mass="0.5" rgba="0.35 0.35 0.35 1"/>
+    </body>
+  </worldbody>
+
+  <!-- 注意：这里【没有】weld/equality 抓取约束。
+       杯子只靠指尖接触力 + 摩擦被夹起来，是真实物理抓取。 -->
+
+</mujoco>
